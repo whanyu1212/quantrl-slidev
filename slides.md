@@ -268,7 +268,7 @@ What we are trying to achieve
   </div>
   <div class="flex items-start">
     <div v-motion :initial="{ scale: 0, opacity: 0 }" :enter="{ scale: 1, opacity: 1, transition: { delay: 1000, duration: 300 } }" class="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 mr-3">
-      <div class="i-carbon-bar-chart-line-data text-xl"></div>
+      <div class="i-carbon-chart-line-data text-xl"></div>
     </div>
     <div class="pt-1">Performance benchmarks against traditional methods</div>
   </div>
