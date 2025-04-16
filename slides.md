@@ -684,7 +684,7 @@ h1 {
 transition: slide-down
 ---
 
-# Results Analysis
+# Single Stock Results Analysis
 Daily frequency with auxiliary data
 
 <div class="px-10 mt-6">
@@ -742,13 +742,11 @@ transition: slide-down
 
 # Designing the Custom Trading Environment
 
-<div class="text-gray-500 text-sm mb-4">Observation Space</div>
-
-<!-- Two Side-by-Side Boxes -->
 <div class="mt-4 grid grid-cols-2 gap-4 max-w-3xl">
+
   <!-- Box 1: Base Observations -->
   <div v-motion :initial="{ x: -30, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 400 } }">
-    <div class="p-3 bg-purple-50 rounded-md border-l-4 border-purple-500">
+    <div class="w-full h-full p-3 bg-purple-50 rounded-md border-l-4 border-purple-500">
       <h3 class="text-sm font-semibold text-purple-600 mb-2 flex items-center">
         <div class="h-5 w-5 rounded-full bg-purple-100 flex items-center justify-center mr-2 text-xs">🧠</div>
         Base Observations
@@ -772,7 +770,7 @@ transition: slide-down
 
   <!-- Box 2: Feature Engineering -->
   <div v-motion :initial="{ x: 30, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 400, delay: 100 } }">
-    <div class="p-3 bg-indigo-50 rounded-md border-l-4 border-indigo-500">
+    <div class="w-full h-full p-3 bg-indigo-50 rounded-md border-l-4 border-indigo-500">
       <h3 class="text-sm font-semibold text-indigo-600 mb-2 flex items-center">
         <div class="h-5 w-5 rounded-full bg-indigo-100 flex items-center justify-center mr-2 text-xs">🔬</div>
         Feature Engineering
@@ -788,18 +786,25 @@ transition: slide-down
         </li>
         <li class="flex items-start">
           <div class="text-indigo-500 mr-1">▶</div>
-          <div>Context-aware features (e.g. earnings dates)</div>
+          <div>News event sentiment summary</div>
         </li>
       </ul>
     </div>
   </div>
+
 </div>
 
 <!-- Side-by-Side Images -->
-<div class="mt-6 grid grid-cols-2 gap-4 items-center">
-  <img src="./imgs/obs_2.jpg" alt="Factor Test Reward" class="rounded-lg shadow-md" />
-  <img src="./imgs/observation_1.jpg" alt="Test Plot" class="rounded-lg shadow-md" />
+<div class="mt-6 p-3 bg-gray-50 rounded-lg border border-gray-200" v-motion :initial="{ y: 50, opacity: 0 }" :enter="{ y: 0, opacity: 1, transition: { duration: 500, delay: 400 } }">
+  <h4 class="text-sm font-medium text-gray-700 mb-2">📝 Dataset Information:</h4>
+  <ul class="space-y-1 text-xs text-gray-600 ml-4 list-disc">
+    Dow Jones Industrial Average 30 stocks
+    <li>Period: 2020-10 to 2025-03</li>
+    <li>Mix of bullish and bearish market conditions over the period</li>
+    <li>Useful proxy for general market sentiment</li>
+  </ul>
 </div>
+
 
 <style>
 h1 {
@@ -814,7 +819,8 @@ h1 {
 </style>
 
 ---
-transition: slide-down
+transition: fade-in
+hideInToc: true 
 ---
 # Designing the Custom Trading Environment (2)
 
@@ -858,6 +864,7 @@ h1 {
 
 ---
 transition: slide-down
+hideInToc: true 
 ---
 # Designing the Custom Trading Environment (3)
 
@@ -871,7 +878,7 @@ transition: slide-down
     <ul class="text-sm leading-relaxed text-white/80">
       <li>One action type for all stocks</li>
       <li>Performs better with lower H value - Scaling Factor</li>
-      <li></li>
+      <li>Rewards vary between 0 < r < 9% </li>
     </ul>
     <!-- Plot Image 1 -->
     <img src="./imgs/base_1.png" alt="Plot 1" class="w-full mt-3 rounded-lg shadow-md">
@@ -882,9 +889,9 @@ transition: slide-down
     <div class="absolute top-2 right-3 text-red-400 text-lg font-bold">×</div>
     <h2 class="text-base font-semibold mb-2 bg-gradient-to-r from-[#4EC5D4] via-[#2B90B6] to-[#146b8c] bg-clip-text text-transparent whitespace-pre-line leading-snug text-center">Sequential Env</h2>
     <ul class="text-sm leading-relaxed text-white/80">
-      <li></li>
-      <li></li>
-      <li></li>
+      <li> Stocks are ordered every step e.g. 1,2,...n </li>
+      <li> Each stocks have their own actions</li>
+      <li> Rewards 0 for multiple runs</li>
     </ul>
     <!-- Plot Image 2 -->
     <img src="./imgs/sqb_1.jpg" alt="Plot 2" class="w-full mt-3 rounded-lg shadow-md">
@@ -895,9 +902,9 @@ transition: slide-down
     <div class="absolute top-2 right-3 text-green-400 text-lg font-bold">✓</div>
     <h2 class="text-base font-semibold mb-2 bg-gradient-to-r from-[#4EC5D4] via-[#2B90B6] to-[#146b8c] bg-clip-text text-transparent whitespace-pre-line leading-snug text-center">Scaled H Env</h2>
     <ul class="text-sm leading-relaxed text-white/80">
-      <li>• Continuous action space</li>
-      <li>• % based allocation</li>
-      <li>• Transaction costs applied</li>
+      <li> Ensures all stocks have equal opportunity to be bought</li>
+      <li> Best H scaling factor is selected </li>
+      <li> Rewards vary between 4% < r < 19% </li>
     </ul>
       <!-- Plot Image 3 -->
     <img src="./imgs/SH1.png" alt="Plot 3" class="w-full mt-3 rounded-lg shadow-md">
@@ -920,11 +927,10 @@ h1 {
 
 ---
 layout: center
-class: text-center
 transition: fade-in
 ---
 
-# Results Analysis
+# Multi Stock Results Analysis
 Daily frequency with auxiliary data
 
 <div class="px-10 mt-6">
