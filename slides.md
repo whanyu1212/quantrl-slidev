@@ -713,8 +713,9 @@ h1 {
 
 ---
 transition: slide-down
+hideInToc: true 
 ---
-# Results Analysis (2)
+# Single Stock Results Analysis (2)
 High frequency (5min) without auxiliary data
 
 <div class="px-10 mt-6">
@@ -961,15 +962,19 @@ transition: fade-in
 ---
 
 # Multi Stock Results Analysis
-Daily frequency with auxiliary data
+<h4 class="text-xs font-small text-white flex gap-2">
+  <span class="text-red-500 text-2xl font-bold">×</span>
+  Hypothesis 1: Indicators effect did not help algorithm to balance portofolio
+</h4>
+
 
 <div class="px-10 mt-6">
   <div v-motion :initial="{ y: 50, opacity: 0 }" :enter="{ y: 0, opacity: 1, transition: { duration: 500 } }">
     <div class="grid grid-cols-2 gap-6">
-      <img src="./imgs/1744779317062.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-      <img src="./imgs/1744784010336.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-      <img src="./imgs/1744784029317.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-      <img src="./imgs/1744784097030.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/A2C Test Value.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/DDPG Test Value.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/SAC Test Value (1).png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/PPO Test Value.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
     </div>
   </div>
 </div>
@@ -985,8 +990,92 @@ h1 {
   -moz-text-fill-color: transparent;
 }
 </style>
+---
+transition: slide-down
+hideInToc: true 
+---
+# Multi Stock Results Analysis (2)
+<h4 class="text-xs font-small text-white flex gap-2">
+  <span class="text-red-500 text-2xl font-bold">×</span>
+  Hypothesis 2: Varying H max across different aglorithms
+</h4>
+
+
+<div class="px-10 mt-6">
+  <div v-motion :initial="{ y: 50, opacity: 0 }" :enter="{ y: 0, opacity: 1, transition: { duration: 500 } }">
+    <div class="grid grid-cols-2 gap-6">
+      <img src="./imgs/A2C Test Value.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/DDPG Test Value.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/SAC Test Value (1).png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/PPO Test Value.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+    </div>
+  </div>
+</div>
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+---
+transition: slide-down
+---
+
+# Challenges & Future Work
+What remains hard, and what’s next
+
+<div class="grid grid-cols-2 gap-8 mt-6">
+
+  <!-- Challenges -->
+  <div v-motion :initial="{ x: -80, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 800 } }" class="bg-white/90 p-6 rounded-lg shadow-md border-l-4 border-red-500">
+    <h3 class="text-red-600 text-lg font-semibold mb-4 flex items-center">
+      <span class="text-red-400 text-xl mr-2">⚠️</span>
+      Challenges
+    </h3>
+    <ul class="space-y-3 text-sm text-gray-700 list-disc list-inside">
+      <li>Balancing exploration and exploitation in sparse reward environments</li>
+      <li>High sensitivity to reward shaping parameters</li>
+      <li>Computational cost of simulating realistic multi-stock trading</li>
+    </ul>
+  </div>
+
+  <!-- Future Work -->
+  <div v-motion :initial="{ x: 80, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 800, delay: 200 } }" class="bg-white/90 p-6 rounded-lg shadow-md border-l-4 border-yellow-500">
+    <h3 class="text-yellow-600 text-lg font-semibold mb-4 flex items-center">
+      <span class="text-yellow-400 text-xl mr-2">🚀</span>
+      Future Work
+    </h3>
+    <ul class="space-y-3 text-sm text-gray-700 list-disc list-inside">
+      <li>Incorporate LLM-guided market news reasoning</li>
+      <li>Multi-agent coordination between stock sectors</li>
+      <li>Real-time backtesting with live market data streams</li>
+    </ul>
+  </div>
+
+</div>
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
 
 ---
+layout: center
+class: text-center
 transition: slide-down
 ---
 
