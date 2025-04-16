@@ -628,19 +628,19 @@ hideInToc: true
         <ul class="space-y-1 text-xs text-gray-600">
           <li class="flex items-start">
             <span class="text-green-500 mr-2">▶</span>
-            <span>TP: +0.5 (portfolio change)</span>
+            <span>ASSET: +0.5 (portfolio change)</span>
           </li>
           <li class="flex items-start">
             <span class="text-green-500 mr-2">▶</span>
-            <span>TP: +0.5 (uptrend) / -0.3 (downtrend)</span>
+            <span>TP: +0.05 (uptrend) / -0.05 (downtrend)</span>
           </li>
           <li class="flex items-start">
             <span class="text-green-500 mr-2">▶</span>
-            <span>SL: +0.5 (downtrend) / -0.3 (uptrend)</span>
+            <span>SL: +0.05 (downtrend) / -0.05 (uptrend)</span>
           </li>
           <li class="flex items-start">
             <span class="text-green-500 mr-2">▶</span>
-            <span>Limit: +0.2 flat bonus</span>
+            <span>Limit: +0.01 flat bonus</span>
           </li>
         </ul>
       </div>
@@ -660,7 +660,7 @@ hideInToc: true
           </li>
           <li class="flex items-start">
             <span class="text-red-500 mr-2">▶</span>
-            <span>Counter-trend: -0.2</span>
+            <span>Frequent trade: -0.01</span>
           </li>
         </ul>
       </div>
