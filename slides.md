@@ -902,46 +902,46 @@ hideInToc: true
 <div class="text-gray-500 text-sm mb-4">Action Space Definition</div>
 <div class="grid grid-cols-3 gap-6 mt-10">
 
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+
   <!-- Base Environment -->
-  <div class="relative rounded-2xl p-3 shadow-lg border border-[#2B90B6]/30 bg-white/5 backdrop-blur-md hover:scale-[1.02] transition duration-200">
-    <div class="absolute top-2 right-3 text-red-400 text-lg font-bold">×</div>
-    <h2 class="text-base font-semibold mb-2 bg-gradient-to-r from-[#4EC5D4] via-[#2B90B6] to-[#146b8c] bg-clip-text text-transparent whitespace-pre-line leading-snug text-center">Base Env</h2>
-    <ul class="text-sm leading-relaxed text-white/80">
+  <div class="relative rounded-2xl p-4 shadow-lg border border-rose-300/30 bg-white/10 backdrop-blur-lg hover:scale-[1.02] transition duration-200">
+    <div class="absolute top-3 right-4 text-rose-400 text-xl font-bold">✖️</div>
+    <h2 class="text-base font-semibold mb-3 text-center bg-gradient-to-r from-rose-300 via-rose-400 to-rose-500 bg-clip-text text-transparent">Base Env</h2>
+    <ul class="text-sm leading-relaxed text-white/90 space-y-1">
       <li>One action type for all stocks</li>
       <li>Performs better with lower H value - Scaling Factor</li>
-      <li>Rewards vary between 0 < r < 9% </li>
+      <li>Rewards vary between 0% – 9%</li>
     </ul>
-    <!-- Plot Image 1 -->
-    <img src="./imgs/base_1.png" alt="Plot 1" class="w-full mt-3 rounded-lg shadow-md">
+    <img src="./imgs/base_1.png" alt="Base Env Plot" class="w-full mt-4 rounded-xl shadow-md">
   </div>
 
   <!-- Sequential Buy/Sell Env -->
-  <div class="relative rounded-2xl p-3 shadow-lg border border-[#2B90B6]/30 bg-white/5 backdrop-blur-md hover:scale-[1.02] transition duration-200">
-    <div class="absolute top-2 right-3 text-red-400 text-lg font-bold">×</div>
-    <h2 class="text-base font-semibold mb-2 bg-gradient-to-r from-[#4EC5D4] via-[#2B90B6] to-[#146b8c] bg-clip-text text-transparent whitespace-pre-line leading-snug text-center">Sequential Env</h2>
-    <ul class="text-sm leading-relaxed text-white/80">
-      <li> Stocks are ordered every step e.g. 1,2,...n </li>
-      <li> Each stocks have their own actions</li>
-      <li> Rewards 0 for multiple runs</li>
+  <div class="relative rounded-2xl p-4 shadow-lg border border-yellow-300/30 bg-white/10 backdrop-blur-lg hover:scale-[1.02] transition duration-200">
+    <div class="absolute top-3 right-4 text-yellow-300 text-xl font-bold">⚠️</div>
+    <h2 class="text-base font-semibold mb-3 text-center bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-500 bg-clip-text text-transparent">Sequential Env</h2>
+    <ul class="text-sm leading-relaxed text-white/90 space-y-1">
+      <li>Stocks are ordered every step (1 → n)</li>
+      <li>Each stock has its own actions</li>
+      <li>Rewards close to 0% across multiple runs</li>
     </ul>
-    <!-- Plot Image 2 -->
-    <img src="./imgs/sqb_1.jpg" alt="Plot 2" class="w-full mt-3 rounded-lg shadow-md">
+    <img src="./imgs/sqb_1.jpg" alt="Sequential Env Plot" class="w-full mt-4 rounded-xl shadow-md">
   </div>
 
   <!-- Scale Buy/Sell Env -->
-  <div class="relative rounded-2xl p-3 shadow-lg border border-[#2B90B6]/30 bg-white/5 backdrop-blur-md hover:scale-[1.02] transition duration-200">
-    <div class="absolute top-2 right-3 text-green-400 text-lg font-bold">✓</div>
-    <h2 class="text-base font-semibold mb-2 bg-gradient-to-r from-[#4EC5D4] via-[#2B90B6] to-[#146b8c] bg-clip-text text-transparent whitespace-pre-line leading-snug text-center">Scaled H Env</h2>
-    <ul class="text-sm leading-relaxed text-white/80">
-      <li> Ensures all stocks have equal opportunity to be bought</li>
-      <li> Best H scaling factor is selected </li>
-      <li> Rewards vary between 4% < r < 19% </li>
+  <div class="relative rounded-2xl p-4 shadow-lg border border-emerald-300/30 bg-white/10 backdrop-blur-lg hover:scale-[1.02] transition duration-200">
+    <div class="absolute top-3 right-4 text-green-400 text-xl font-bold">✅</div>
+    <h2 class="text-base font-semibold mb-3 text-center bg-gradient-to-r from-green-200 via-green-400 to-emerald-500 bg-clip-text text-transparent">Scaled H Env</h2>
+    <ul class="text-sm leading-relaxed text-white/90 space-y-1">
+      <li>All stocks get fair buying opportunities</li>
+      <li>Best H scaling factor is selected</li>
+      <li>Rewards vary between 4% – 19%</li>
     </ul>
-      <!-- Plot Image 3 -->
-    <img src="./imgs/SH1.png" alt="Plot 3" class="w-full mt-3 rounded-lg shadow-md">
+    <img src="./imgs/SH1.png" alt="Scaled Env Plot" class="w-full mt-4 rounded-xl shadow-md">
   </div>
 
 </div>
+
 
 
 <style>
@@ -1004,10 +1004,10 @@ hideInToc: true
 <div class="px-10 mt-6">
   <div v-motion :initial="{ y: 50, opacity: 0 }" :enter="{ y: 0, opacity: 1, transition: { duration: 500 } }">
     <div class="grid grid-cols-2 gap-6">
-      <img src="./imgs/A2C Test Value.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-      <img src="./imgs/DDPG Test Value.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-      <img src="./imgs/SAC Test Value (1).png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-      <img src="./imgs/PPO Test Value.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/dji_cum_return.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/hmax_pct_growth.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/hmax A2C Test Rewards.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/hmax SAC Test Rewards.png" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
     </div>
   </div>
 </div>
@@ -1039,9 +1039,9 @@ What remains hard, and what’s next
       Challenges
     </h3>
     <ul class="space-y-3 text-sm text-gray-700 list-disc list-inside">
-      <li>Balancing exploration and exploitation in sparse reward environments</li>
-      <li>High sensitivity to reward shaping parameters</li>
-      <li>Computational cost of simulating realistic multi-stock trading</li>
+      <li>Balancing exploration and exploitation in sparse reward environments for multi-stock environment</li>
+      <li>Indicators are not supporting agent exploration process </li>
+      <li>Extending single stock complexity to multi-stock environment</li>
     </ul>
   </div>
 
@@ -1052,9 +1052,10 @@ What remains hard, and what’s next
       Future Work
     </h3>
     <ul class="space-y-3 text-sm text-gray-700 list-disc list-inside">
-      <li>Incorporate LLM-guided market news reasoning</li>
-      <li>Multi-agent coordination between stock sectors</li>
-      <li>Real-time backtesting with live market data streams</li>
+      <li>Experiment with reward shaping for multi-stock environment</li>
+      <li>Feature transformation for indicator features</li>
+      <li>Ensemble and Hyperparameter tuning for RL algorithms</li>
+      <li>Live Trading Testing</li>
     </ul>
   </div>
 
