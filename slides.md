@@ -396,6 +396,7 @@ h1 {
 </style>
 
 ---
+transition: slide-up
 layout: center
 class: text-center
 background: "/imgs/meme-stock-trading_300932-16025.avif"
@@ -612,9 +613,9 @@ hideInToc: true
 
 <div class="grid grid-cols-2 gap-x-6 mt-4">
   <div v-motion :initial="{ x: -50, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 500 } }">
-    <img src="./imgs/1744772339720.jpg" class="w-2/3">
-    <img src="./imgs/1744772129815.jpg" class="w-2/3">
-    <img src="./imgs/1744772258828.jpg" class="w-2/3">
+    <img src="./imgs/1744794065644.jpg" class="w-2/3">
+    <img src="./imgs/1744794095444.jpg" class="w-2/3">
+    <img src="./imgs/1744794115623.jpg" class="w-2/3">
   </div>
 
   <div v-motion :initial="{ x: 50, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 500 } }">
@@ -690,10 +691,39 @@ Daily frequency with auxiliary data
 <div class="px-10 mt-6">
   <div v-motion :initial="{ y: 50, opacity: 0 }" :enter="{ y: 0, opacity: 1, transition: { duration: 500 } }">
     <div class="grid grid-cols-2 gap-6">
-      <img src="./imgs/1744779317062.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-      <img src="./imgs/1744784010336.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-      <img src="./imgs/1744784029317.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-      <img src="./imgs/1744784097030.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744796741812.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744796768436.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744796784024.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744796804148.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+    </div>
+  </div>
+</div>
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+transition: slide-down
+---
+# Results Analysis (2)
+High frequency (5min) without auxiliary data
+
+<div class="px-10 mt-6">
+  <div v-motion :initial="{ y: 50, opacity: 0 }" :enter="{ y: 0, opacity: 1, transition: { duration: 500 } }">
+    <div class="grid grid-cols-2 gap-6">
+      <img src="./imgs/1744792769920.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744792801443.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744792832499.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744792893877.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
     </div>
   </div>
 </div>
