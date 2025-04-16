@@ -404,7 +404,92 @@ h1 {
 transition: fade-in
 ---
 # Designing the Custom Trading Environment
-Action Spaces, States, Reward, Observations
+Action Spaces, States, Reward
+
+<div grid="~ cols-3 gap-6" class="mt-10">
+
+<div class="border rounded-2xl p-6 shadow-md hover:shadow-lg transition bg-gray-50">
+  <div class="text-4xl mb-3">🎯</div>
+  <div class="text-xl font-bold text-gray-800 mb-2">Action</div>
+  <div class="text-sm text-gray-600 leading-relaxed">
+    The decision made by the agent at each step, influencing the environment.
+  </div>
+</div>
+
+<div class="border rounded-2xl p-6 shadow-md hover:shadow-lg transition bg-gray-50">
+  <div class="text-4xl mb-3">🌍</div>
+  <div class="text-xl font-bold text-gray-800 mb-2">State</div>
+  <div class="text-sm text-gray-600 leading-relaxed">
+    A snapshot of the environment that the agent uses to determine its next move.
+  </div>
+</div>
+
+<div class="border rounded-2xl p-6 shadow-md hover:shadow-lg transition bg-gray-50">
+  <div class="text-4xl mb-3">💰</div>
+  <div class="text-xl font-bold text-gray-800 mb-2">Reward</div>
+  <div class="text-sm text-gray-600 leading-relaxed">
+    Feedback signal that tells the agent how well it's performing toward its goal.
+  </div>
+</div>
+
+</div>
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+transition: fade-in
+hideInToc: true 
+---
+
+# Designing the Custom Trading Environment (cont.)
+Action Spaces, States, Reward
+
+## Sub-section: Environment Complexity
+
+- Realistic transaction costs  
+- Slippage modeling  
+- Market impact consideration  
+- Limit/stop vs. market orders  
+- Liquidity constraints  
+
+## Sub-section: Signal Delay and Event Handling
+
+- Time-varying volatility regimes  
+- Delayed reward signals  
+- Spread simulation  
+- Price impact from large orders  
+- Event-driven reactions
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+transition: fade-in
+layout: center
+class: text-center
+---
+
+# Results and Findings
+Experiment Setup
 
 <style>
 h1 {
@@ -421,7 +506,6 @@ h1 {
 ---
 layout: center
 class: text-center
-hideInToc: true 
 ---
 
 # Thank You
