@@ -129,11 +129,6 @@ transition: fade-out
         <carbon:logo-github class="mr-1 text-blue-600" /> <span class="font-medium">Gym-Trading-Env</span>
       </a>
     </div>
-    <div v-motion :initial="{ x: -50, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { delay: 1500, duration: 200 } }">
-      <a href="https://github.com/TradeMaster-NTU/TradeMaster" target="_blank" class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 hover:bg-blue-100 transition-colors border border-gray-200 hover:border-blue-300">
-        <carbon:logo-github class="mr-1 text-blue-600" /> <span class="font-medium">TradeMaster-NTU</span>
-      </a>
-    </div>
   </div>
 </div>
 
@@ -231,13 +226,13 @@ transition: slide-up
 ---
 
 # Scope and Deliverables
-What we are trying to achieve
+What we are trying to test and validate
 
 <div class="grid grid-cols-2 gap-8">
 <div v-motion :initial="{ x: -100, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 800 } }" class="bg-white bg-opacity-90 p-6 rounded-lg shadow-md border-l-4 border-green-500">
 
 ## Hypothesis
-<div class="text-gray-600 mb-6 text-lg font-light">Reinforcement Learning can significantly outperform in trading when given:</div>
+<div class="text-gray-600 mb-6 text-lg font-light">RL based trading can be more promising given:</div>
 
 
 <div class="space-y-4">
@@ -401,37 +396,108 @@ h1 {
 </style>
 
 ---
+layout: center
+class: text-center
+background: "/imgs/meme-stock-trading_300932-16025.avif"
+---
+
+# Single Stock Example
+
+<div class="mt-10 text-sm opacity-70">
+  <div class="flex justify-center items-center">
+    <carbon:information class="mr-2" />
+    <span>MU on different frequencies</span>
+  </div>
+</div>
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
 transition: fade-in
 ---
 # Designing the Custom Trading Environment
-Action Spaces, States, Reward
 
-<div grid="~ cols-3 gap-6" class="mt-10">
+<div class="grid grid-cols-12 gap-8">
+  <div class="col-span-6" v-motion :initial="{ x: -50, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 500 } }">
+    <h4 class="text-lg font-medium text-blue-600 mb-4">Action Space Definition</h4>
 
-<div class="border rounded-2xl p-6 shadow-md hover:shadow-lg transition bg-gray-50">
-  <div class="text-4xl mb-3">🎯</div>
-  <div class="text-xl font-bold text-gray-800 mb-2">Action</div>
-  <div class="text-sm text-gray-600 leading-relaxed">
-    The decision made by the agent at each step, influencing the environment.
+```python {all|2-4|5-6|7-8} {scale: 0.9}
+class Actions(IntEnum):
+    Hold = 0
+    Buy = 1      # Market Buy
+    Sell = 2     # Market Sell
+    LimitBuy = 3  # Limit Order Buy
+    LimitSell = 4 # Limit Order Sell
+    StopLoss = 5  # Stop loss order
+    TakeProfit = 6 # Take Profit order
+```
+```python
+self.action_space = spaces.Box(
+            low=np.array([action_type_low, amount_low, price_mod_low], dtype=np.float32),
+            high=np.array([action_type_high, amount_high, price_mod_high], dtype=np.float32),
+            shape=(3,),
+            dtype=np.float32
+        )
+```
+   <div class="text-sm text-gray-500 mt-2">
+      Enhanced action space supporting multiple order types
+    </div>
+    <div class="text-sm text-gray-500 mt-2">
+      Assumes a time in force to be GTC (5 days)
+    </div>
+    <div class="text-sm text-gray-500 mt-2">
+      Trade offs between compatibility and semantic meaning
+    </div>
   </div>
-</div>
 
-<div class="border rounded-2xl p-6 shadow-md hover:shadow-lg transition bg-gray-50">
-  <div class="text-4xl mb-3">🌍</div>
-  <div class="text-xl font-bold text-gray-800 mb-2">State</div>
-  <div class="text-sm text-gray-600 leading-relaxed">
-    A snapshot of the environment that the agent uses to determine its next move.
+  <div class="col-span-6" v-motion :initial="{ x: 50, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { delay: 300, duration: 500 } }">
+    <h4 class="text-lg font-medium text-blue-600 mb-4">Mapping to Alpaca API</h4>
+    <div class="space-y-4">
+      <div class="flex items-start p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+        <div class="flex-shrink-0 h-8 w-8 flex items-center justify-center rounded-full bg-blue-100 mr-3">
+          🛒
+        </div>
+        <div>
+          <div class="font-medium">Market Orders</div>
+          <div class="text-sm text-gray-600">
+            Buy (1) and Sell (2) map to market orders for immediate execution
+          </div>
+        </div>
+      </div>
+      <div class="flex items-start p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+        <div class="flex-shrink-0 h-8 w-8 flex items-center justify-center rounded-full bg-green-100 mr-3">
+          💰
+        </div>
+        <div>
+          <div class="font-medium">Limit Orders</div>
+          <div class="text-sm text-gray-600">
+            LimitBuy (3) and LimitSell (4) map to limit orders at specified prices
+          </div>
+        </div>
+      </div>
+      <div class="flex items-start p-3 bg-amber-50 rounded-lg border-l-4 border-amber-500">
+        <div class="flex-shrink-0 h-8 w-8 flex items-center justify-center rounded-full bg-amber-100 mr-3">
+          ⚠️
+        </div>
+        <div>
+          <div class="font-medium">Stop Orders</div>
+          <div class="text-sm text-gray-600">
+            StopLoss (5) and TakeProfit (6) map to stop orders for risk management
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-
-<div class="border rounded-2xl p-6 shadow-md hover:shadow-lg transition bg-gray-50">
-  <div class="text-4xl mb-3">💰</div>
-  <div class="text-xl font-bold text-gray-800 mb-2">Reward</div>
-  <div class="text-sm text-gray-600 leading-relaxed">
-    Feedback signal that tells the agent how well it's performing toward its goal.
-  </div>
-</div>
-
 </div>
 
 <style>
@@ -450,25 +516,75 @@ h1 {
 transition: fade-in
 hideInToc: true 
 ---
+# Designing the Custom Trading Environment (2)
 
-# Designing the Custom Trading Environment (cont.)
-Action Spaces, States, Reward
 
-## Sub-section: Environment Complexity
+<div class="text-gray-500 text-sm mb-4">Observable States Design</div>
 
-- Realistic transaction costs  
-- Slippage modeling  
-- Market impact consideration  
-- Limit/stop vs. market orders  
-- Liquidity constraints  
+<div class="grid grid-cols-2 gap-x-8 mt-4">
+  <div v-motion :initial="{ x: -50, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 500 } }">
+    <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+      <h3 class="text-base font-semibold text-blue-600 mb-3 flex items-center">
+        <div class="h-6 w-6 rounded-full bg-blue-100 flex items-center justify-center mr-2">📈</div>
+        Market Data Window
+      </h3>
+      <ul class="space-y-2 text-xs text-gray-700">
+        <li class="flex items-start">
+          <div class="text-blue-500 mr-2">▶</div>
+          <div>Flattened array of last <code class="bg-blue-100 px-1 rounded">window_size</code> timesteps</div>
+        </li>
+        <li class="flex items-start">
+          <div class="text-blue-500 mr-2">▶</div>
+          <div>Includes OHLCV and other useful indicators</div>
+        </li>
+        <li class="flex items-start">
+          <div class="text-blue-500 mr-2">▶</div>
+          <div>Window-relative normalization for price scale invariance</div>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-## Sub-section: Signal Delay and Event Handling
+  <div v-motion :initial="{ x: 50, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 500, delay: 200 } }">
+    <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+      <h3 class="text-base font-semibold text-green-600 mb-3 flex items-center">
+        <div class="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center mr-2">📊</div>
+        Portfolio Metrics
+      </h3>
+      <ul class="space-y-2 text-xs text-gray-700">
+        <li class="flex items-start">
+          <div class="text-green-500 mr-2">▶</div>
+          <div>Normalized balance and position ratios</div>
+        </li>
+        <li class="flex items-start">
+          <div class="text-green-500 mr-2">▶</div>
+          <div>Unrealized P/L and price positioning</div>
+        </li>
+        <li class="flex items-start">
+          <div class="text-green-500 mr-2">▶</div>
+          <div>Volatility and trend strength indicators</div>
+        </li>
+        <li class="flex items-start">
+          <div class="text-green-500 mr-2">▶</div>
+          <div>Risk/Reward metrics from active orders</div>
+        </li>
+        <li class="flex items-start">
+          <div class="text-green-500 mr-2">▶</div>
+          <div>Distance to stop-loss and take-profit levels</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-- Time-varying volatility regimes  
-- Delayed reward signals  
-- Spread simulation  
-- Price impact from large orders  
-- Event-driven reactions
+<div class="mt-6 p-3 bg-gray-50 rounded-lg border border-gray-200" v-motion :initial="{ y: 50, opacity: 0 }" :enter="{ y: 0, opacity: 1, transition: { duration: 500, delay: 400 } }">
+  <h4 class="text-sm font-medium text-gray-700 mb-2">📝 Implementation Notes:</h4>
+  <ul class="space-y-1 text-xs text-gray-600 ml-4 list-disc">
+    <li>All numerical features are normalized to prevent scaling issues</li>
+    <li>Window-based normalization helps maintain local context</li>
+    <li>Portfolio metrics provide a comprehensive view of trading status</li>
+  </ul>
+</div>
 
 <style>
 h1 {
@@ -479,17 +595,108 @@ h1 {
   -moz-background-clip: text;
   -webkit-text-fill-color: transparent;
   -moz-text-fill-color: transparent;
+}
+
+code {
+  font-family: 'Fira Code', monospace;
 }
 </style>
 
 ---
 transition: fade-in
-layout: center
-class: text-center
+hideInToc: true 
+---
+# Designing the Custom Trading Environment (3)
+
+<div class="text-gray-500 text-sm mb-4">Action Rewards Design</div>
+
+<div class="grid grid-cols-2 gap-x-6 mt-4">
+  <div v-motion :initial="{ x: -50, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 500 } }">
+    <img src="./imgs/1744772339720.jpg" class="w-2/3">
+    <img src="./imgs/1744772129815.jpg" class="w-2/3">
+    <img src="./imgs/1744772258828.jpg" class="w-2/3">
+  </div>
+
+  <div v-motion :initial="{ x: 50, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 500 } }">
+    <div class="space-y-3">
+      <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+        <h3 class="text-sm font-semibold text-green-600 mb-2 flex items-center">
+          <div class="h-5 w-5 rounded-full bg-green-100 flex items-center justify-center mr-2">⚖️</div>
+          Rewards
+        </h3>
+        <ul class="space-y-1 text-xs text-gray-600">
+          <li class="flex items-start">
+            <span class="text-green-500 mr-2">▶</span>
+            <span>TP: +0.5 (portfolio change)</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-green-500 mr-2">▶</span>
+            <span>TP: +0.5 (uptrend) / -0.3 (downtrend)</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-green-500 mr-2">▶</span>
+            <span>SL: +0.5 (downtrend) / -0.3 (uptrend)</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-green-500 mr-2">▶</span>
+            <span>Limit: +0.2 flat bonus</span>
+          </li>
+        </ul>
+      </div>
+      <div class="p-3 bg-red-50 rounded-lg border-l-4 border-red-500">
+        <h3 class="text-sm font-semibold text-red-600 mb-2 flex items-center">
+          <div class="h-5 w-5 rounded-full bg-red-100 flex items-center justify-center mr-2">⚡</div>
+          Penalties
+        </h3>
+        <ul class="space-y-1 text-xs text-gray-600">
+          <li class="flex items-start">
+            <span class="text-red-500 mr-2">▶</span>
+            <span>Invalid actions: -1.0</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-red-500 mr-2">▶</span>
+            <span>No-trend hold: -0.1</span>
+          </li>
+          <li class="flex items-start">
+            <span class="text-red-500 mr-2">▶</span>
+            <span>Counter-trend: -0.2</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+
+---
+transition: slide-down
 ---
 
-# Results and Findings
-Experiment Setup
+# Results Analysis
+Daily frequency with auxiliary data
+
+<div class="px-10 mt-6">
+  <div v-motion :initial="{ y: 50, opacity: 0 }" :enter="{ y: 0, opacity: 1, transition: { duration: 500 } }">
+    <div class="grid grid-cols-2 gap-6">
+      <img src="./imgs/1744779317062.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744784010336.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744784029317.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744784097030.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+    </div>
+  </div>
+</div>
 
 <style>
 h1 {
@@ -506,6 +713,245 @@ h1 {
 ---
 layout: center
 class: text-center
+transition: slide-down
+---
+
+# Multi Stock Example
+
+<div class="mt-10 text-sm opacity-70">
+  <div class="flex justify-center items-center">
+    <carbon:information class="mr-2" />
+    <span>Beating the Index</span>
+  </div>
+</div>
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+---
+transition: slide-down
+---
+
+# Designing the Custom Trading Environment
+
+<div class="text-gray-500 text-sm mb-4">Observation Space</div>
+
+<!-- Two Side-by-Side Boxes -->
+<div class="mt-4 grid grid-cols-2 gap-4 max-w-3xl">
+  <!-- Box 1: Base Observations -->
+  <div v-motion :initial="{ x: -30, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 400 } }">
+    <div class="p-3 bg-purple-50 rounded-md border-l-4 border-purple-500">
+      <h3 class="text-sm font-semibold text-purple-600 mb-2 flex items-center">
+        <div class="h-5 w-5 rounded-full bg-purple-100 flex items-center justify-center mr-2 text-xs">🧠</div>
+        Base Observations
+      </h3>
+      <ul class="space-y-1 text-[11px] text-gray-700">
+        <li class="flex items-start">
+          <div class="text-purple-500 mr-1">▶</div>
+          <div>Cash Balance: Total amount of cash available</div>
+        </li>
+        <li class="flex items-start">
+          <div class="text-purple-500 mr-1">▶</div>
+          <div>Stock Info: Shares held & share price</div>
+        </li>
+        <li class="flex items-start">
+          <div class="text-purple-500 mr-1">▶</div>
+          <div>Indicators: Technical, macro, sector, events</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Box 2: Feature Engineering -->
+  <div v-motion :initial="{ x: 30, opacity: 0 }" :enter="{ x: 0, opacity: 1, transition: { duration: 400, delay: 100 } }">
+    <div class="p-3 bg-indigo-50 rounded-md border-l-4 border-indigo-500">
+      <h3 class="text-sm font-semibold text-indigo-600 mb-2 flex items-center">
+        <div class="h-5 w-5 rounded-full bg-indigo-100 flex items-center justify-center mr-2 text-xs">🔬</div>
+        Feature Engineering
+      </h3>
+      <ul class="space-y-1 text-[11px] text-gray-700">
+        <li class="flex items-start">
+          <div class="text-indigo-500 mr-1">▶</div>
+          <div>Rolling windows for momentum & volatility</div>
+        </li>
+        <li class="flex items-start">
+          <div class="text-indigo-500 mr-1">▶</div>
+          <div>Time-series indicators like SMA, RSI, MACD</div>
+        </li>
+        <li class="flex items-start">
+          <div class="text-indigo-500 mr-1">▶</div>
+          <div>Context-aware features (e.g. earnings dates)</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Side-by-Side Images -->
+<div class="mt-6 grid grid-cols-2 gap-4 items-center">
+  <img src="./imgs/obs_2.jpg" alt="Factor Test Reward" class="rounded-lg shadow-md" />
+  <img src="./imgs/observation_1.jpg" alt="Test Plot" class="rounded-lg shadow-md" />
+</div>
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+transition: slide-down
+---
+# Designing the Custom Trading Environment (2)
+
+<div class="text-gray-500 text-sm mb-4">Action Rewards Design</div>
+
+<div class="text-gray-200 text-sm leading-relaxed">
+
+  <h2 class="text-base font-semibold mt-4 mb-2">📈 Annualized Sharpe Ratio</h2>
+  <div class="bg-gray-800 text-white text-sm font-mono p-3 rounded-lg">
+    Sharpe<sub>annual</sub> = √N × (μ - r<sub>f</sub>) / σ
+  </div>
+  <ul class="mt-2 ml-4 list-disc text-xs">
+    <li>μ = average return</li>
+    <li>r<sub>f</sub> = risk-free rate</li>
+    <li>σ = standard deviation of returns</li>
+    <li>N = number of periods per year (e.g., 252 for daily)</li>
+  </ul>
+
+  <h1 class="text-lg font-bold mt-6 mb-2">🧮 Naive Asset Difference</h1>
+  <div class="bg-gray-800 text-white text-sm font-mono p-3 rounded-lg">
+    Signal<sub>t</sub> = Asset<sub>t</sub> - Asset<sub>t-1</sub>
+  </div>
+  <ul class="mt-2 ml-4 list-disc text-xs">
+    <li>If Signal &gt; 0 → upward trend (buy bias)</li>
+    <li>If Signal &lt; 0 → downward trend (sell bias)</li>
+  </ul>
+
+</div>
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+transition: slide-down
+---
+# Designing the Custom Trading Environment (3)
+
+<div class="text-gray-500 text-sm mb-4">Action Space Definition</div>
+<div class="grid grid-cols-3 gap-6 mt-10">
+
+  <!-- Base Environment -->
+  <div class="relative rounded-2xl p-3 shadow-lg border border-[#2B90B6]/30 bg-white/5 backdrop-blur-md hover:scale-[1.02] transition duration-200">
+    <div class="absolute top-2 right-3 text-red-400 text-lg font-bold">×</div>
+    <h2 class="text-base font-semibold mb-2 bg-gradient-to-r from-[#4EC5D4] via-[#2B90B6] to-[#146b8c] bg-clip-text text-transparent whitespace-pre-line leading-snug text-center">Base Env</h2>
+    <ul class="text-sm leading-relaxed text-white/80">
+      <li>One action type for all stocks</li>
+      <li>Performs better with lower H value - Scaling Factor</li>
+      <li></li>
+    </ul>
+    <!-- Plot Image 1 -->
+    <img src="./imgs/base_1.png" alt="Plot 1" class="w-full mt-3 rounded-lg shadow-md">
+  </div>
+
+  <!-- Sequential Buy/Sell Env -->
+  <div class="relative rounded-2xl p-3 shadow-lg border border-[#2B90B6]/30 bg-white/5 backdrop-blur-md hover:scale-[1.02] transition duration-200">
+    <div class="absolute top-2 right-3 text-red-400 text-lg font-bold">×</div>
+    <h2 class="text-base font-semibold mb-2 bg-gradient-to-r from-[#4EC5D4] via-[#2B90B6] to-[#146b8c] bg-clip-text text-transparent whitespace-pre-line leading-snug text-center">Sequential Env</h2>
+    <ul class="text-sm leading-relaxed text-white/80">
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <!-- Plot Image 2 -->
+    <img src="./imgs/sqb_1.jpg" alt="Plot 2" class="w-full mt-3 rounded-lg shadow-md">
+  </div>
+
+  <!-- Scale Buy/Sell Env -->
+  <div class="relative rounded-2xl p-3 shadow-lg border border-[#2B90B6]/30 bg-white/5 backdrop-blur-md hover:scale-[1.02] transition duration-200">
+    <div class="absolute top-2 right-3 text-green-400 text-lg font-bold">✓</div>
+    <h2 class="text-base font-semibold mb-2 bg-gradient-to-r from-[#4EC5D4] via-[#2B90B6] to-[#146b8c] bg-clip-text text-transparent whitespace-pre-line leading-snug text-center">Scaled H Env</h2>
+    <ul class="text-sm leading-relaxed text-white/80">
+      <li>• Continuous action space</li>
+      <li>• % based allocation</li>
+      <li>• Transaction costs applied</li>
+    </ul>
+      <!-- Plot Image 3 -->
+    <img src="./imgs/SH1.png" alt="Plot 3" class="w-full mt-3 rounded-lg shadow-md">
+  </div>
+
+</div>
+
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+layout: center
+class: text-center
+transition: fade-in
+---
+
+# Results Analysis
+Daily frequency with auxiliary data
+
+<div class="px-10 mt-6">
+  <div v-motion :initial="{ y: 50, opacity: 0 }" :enter="{ y: 0, opacity: 1, transition: { duration: 500 } }">
+    <div class="grid grid-cols-2 gap-6">
+      <img src="./imgs/1744779317062.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744784010336.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744784029317.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+      <img src="./imgs/1744784097030.jpg" class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+    </div>
+  </div>
+</div>
+
+<style>
+h1 {
+  background-color: #2B90B6;
+  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+</style>
+
+---
+transition: slide-down
 ---
 
 # Thank You
